@@ -1,38 +1,376 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
- 
-
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="bytelogiktask">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>bytelogiktask</title>
-  <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ByteLogic Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #FAB400;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            width: 200px;
+            margin-bottom: 15px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000;
+        }
+        
+        .form-container {
+            padding: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .input-field:focus {
+            border-color: #FAB400;
+            outline: none;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: #FAB400;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            color: #777;
+            cursor: pointer;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: #FAB400;
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(250, 180, 0, 0.3);
+        }
+        
+        .btn-login:hover {
+            background: #e5a200;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(250, 180, 0, 0.4);
+        }
+        
+        .btn-login:active {
+            transform: translateY(0);
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .signup-link a {
+            color: #FAB400;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            background: #ffebee;
+            color: #d32f2f;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .success-message {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .connection-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .online {
+            color: #2e7d32;
+        }
+        
+        .offline {
+            color: #d32f2f;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .online .status-indicator {
+            background: #4caf50;
+        }
+        
+        .offline .status-indicator {
+            background: #f44336;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+    <div class="container">
+        <div class="header">
+            <img src="https://via.placeholder.com/200x60/FAB400/000000?text=ByteLogic+Logo" alt="ByteLogic Logo" class="logo">
+            <h1>Login</h1>
+        </div>
+        
+        <div class="form-container">
+            <div class="error-message" id="errorMessage">
+                Please check your internet connection and try again.
+            </div>
+            
+            <div class="success-message" id="successMessage">
+                Login successful! Redirecting...
+            </div>
+            
+            <div class="input-group">
+                <label for="email">Email</label>
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="email" id="email" class="input-field" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" id="password" class="input-field" placeholder="Enter your password" required>
+                <i class="fas fa-eye password-toggle" id="passwordToggle"></i>
+            </div>
+            
+            <button class="btn-login" id="loginButton">Login</button>
+            
+            <div class="signup-link">
+                Don't have an account? <a href="#">Sign Up</a>
+            </div>
+            
+            <div class="connection-status offline" id="connectionStatus">
+                <div class="status-indicator"></div>
+                <span>Offline - No internet connection</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordToggle = document.getElementById('passwordToggle');
+            const passwordInput = document.getElementById('password');
+            const loginButton = document.getElementById('loginButton');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const connectionStatus = document.getElementById('connectionStatus');
+            
+            // Check initial connection status
+            checkConnection();
+            
+            // Update connection status on load and when changes occur
+            window.addEventListener('online', checkConnection);
+            window.addEventListener('offline', checkConnection);
+            
+            // Toggle password visibility
+            passwordToggle.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    passwordToggle.classList.remove('fa-eye');
+                    passwordToggle.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    passwordToggle.classList.remove('fa-eye-slash');
+                    passwordToggle.classList.add('fa-eye');
+                }
+            });
+            
+            // Login button click handler
+            loginButton.addEventListener('click', function() {
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Basic validation
+                if (!email || !password) {
+                    showError('Please fill in all fields');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    showError('Please enter a valid email address');
+                    return;
+                }
+                
+                // Check connection before attempting login
+                if (!navigator.onLine) {
+                    showError('No internet connection. Please check your connection and try again.');
+                    return;
+                }
+                
+                // Simulate login process
+                simulateLogin();
+            });
+            
+            // Function to check internet connection
+            function checkConnection() {
+                if (navigator.onLine) {
+                    connectionStatus.classList.remove('offline');
+                    connectionStatus.classList.add('online');
+                    connectionStatus.innerHTML = '<div class="status-indicator"></div><span>Online - You are connected</span>';
+                    hideError();
+                } else {
+                    connectionStatus.classList.remove('online');
+                    connectionStatus.classList.add('offline');
+                    connectionStatus.innerHTML = '<div class="status-indicator"></div><span>Offline - No internet connection</span>';
+                    showError('No internet connection. Please check your connection and try again.');
+                }
+            }
+            
+            // Function to validate email
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Function to show error message
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+            }
+            
+            // Function to hide error message
+            function hideError() {
+                errorMessage.style.display = 'none';
+            }
+            
+            // Function to show success message
+            function showSuccess(message) {
+                successMessage.textContent = message;
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+            }
+            
+            // Simulate login process
+            function simulateLogin() {
+                loginButton.textContent = 'Logging in...';
+                loginButton.disabled = true;
+                
+                // Simulate API call delay
+                setTimeout(function() {
+                    // For demo purposes, we'll consider it a success
+                    showSuccess('Login successful! Redirecting...');
+                    
+                    // Simulate redirect
+                    setTimeout(function() {
+                        alert('Redirecting to home page...');
+                        loginButton.textContent = 'Login';
+                        loginButton.disabled = false;
+                    }, 1500);
+                }, 2000);
+            }
+            
+            // Add input validation as user types
+            document.getElementById('email').addEventListener('input', function() {
+                hideError();
+            });
+            
+            document.getElementById('password').addEventListener('input', function() {
+                hideError();
+            });
+        });
+    </script>
 </body>
 </html>
